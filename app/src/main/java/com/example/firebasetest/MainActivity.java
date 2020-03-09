@@ -3,8 +3,10 @@ package com.example.firebasetest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     EditText userEditText, passwordEditText;
-    Button logInButton;
-    Button signInButton;
+    Button logInButton, signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +38,23 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password);
         logInButton = findViewById(R.id.login_btn);
         signInButton = findViewById(R.id.signin_btn);
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAccount();
+            }
+        });
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailSignIn();
+            }
+        });
+
 
     }
 
-    void createAccount(){
+    void createAccount() {
         mAuth.createUserWithEmailAndPassword(userEditText.getText().toString(), passwordEditText.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -55,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     private void emailSignIn() {
@@ -76,20 +89,5 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    void login(){
-        logInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createAccount();
-            }
-        });
-    }
-    void signin(){
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                emailSignIn();
-            }
-        });
-    }
+
 }
